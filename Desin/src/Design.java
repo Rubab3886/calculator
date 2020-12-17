@@ -9,7 +9,7 @@ public class Design implements ActionListener{
  JTextField t2;
  JButton b1,b2;
  JLabel l1,l2,l3,l4,l5;
- JScrollPane s;
+ JScrollPane str;
  int countUpper=0;
  int countDigit=0;
  JTextArea a;
@@ -27,12 +27,16 @@ public class Design implements ActionListener{
 		b2=new JButton("Decode Password");
 		l5=new JLabel("Password box");
 		a=new JTextArea("type some stuff here(and hit the return and tab keys)");
-		s=new JScrollPane(a);
 		a.setLineWrap(true);
 		a.setWrapStyleWord(true);
+		str=new JScrollPane(a);
+		str.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		b1.setBorder(BorderFactory.createBevelBorder(1));
+		b2.setBorder(BorderFactory.createBevelBorder(1));
+		t1.setBorder(BorderFactory.createBevelBorder(1));
+		t2.setBorder(BorderFactory.createBevelBorder(1));
 		a.setBorder(BorderFactory.createBevelBorder(1));
-		s.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		s.setSize(400, 60);
+		str.setSize(400, 60);
 		l1.setBounds(5,2,150,50);
 		l2.setBounds(5,12,150,50);
 		l3.setBounds(5,24,150,50);
@@ -42,8 +46,7 @@ public class Design implements ActionListener{
 		b2.setBounds(250,210,150,30);
 		t1.setBounds(5,250,100,30);
 		t2.setBounds(150,250,300,30);
-		a.setBounds(150,2,290,170);
-		s.setBounds(150,2,290,170);
+		str.setBounds(150,2,290,170);
 		p.add(l1);
 		p.add(l2);
 		p.add(l3);
@@ -51,10 +54,10 @@ public class Design implements ActionListener{
 		p.add(l5);
 		p.add(b1);
 		p.add(b2);
-		p.add(a);
+		
 		p.add(t1);
 		p.add(t2);
-		p.add(s);
+		p.add(str);
 		f.add(p);
 		b2.addActionListener(this);
 		l1.setForeground(Color.black);
@@ -73,15 +76,17 @@ public class Design implements ActionListener{
 public void actionPerformed(ActionEvent e) {
 	String pass=t2.getText();
 if(e.getSource()==b2) {
-	if(pass.length()>10) {
+	if(pass.length()>10 ) {
 		for(int i=0;i<pass.length();i++) {
 			if(Character.isUpperCase(pass.charAt(i)))
 				countUpper++;
 			if(Character.isDigit(pass.charAt(i)))
 				countDigit++;
 		}
+		
 		if(countUpper>0)
 		{
+			if(pass.matches("(?=.*[~@#]).*")) {
 			if(countDigit>=4) {
 				JOptionPane.showMessageDialog(null," STRONG PASSWORD  ");
 			}
@@ -89,21 +94,28 @@ if(e.getSource()==b2) {
 				JOptionPane.showMessageDialog(null,"INVALID PASSWORD :digit must me more than 4");
 				t2.setText("");
 			}
+			}
+			else {
+		JOptionPane.showMessageDialog(null,"INVALID PASSWORD :only @ and # allowed ");
+		t2.setText("");
+		}
 		}
 		else {
 			JOptionPane.showMessageDialog(null,"INVALID PASSWORD :have atleast one capital letter ");
 			t2.setText("");
 		}
 	}
+	}
 	else {
 		JOptionPane.showMessageDialog(null,"INVALID PASSWORD :length should be greater than 10");
 		t2.setText("");
 	}
+	
 }
-	}
 	
 	public static void main(String args[]) {
 	new Design();
 	}
 
 }
+
